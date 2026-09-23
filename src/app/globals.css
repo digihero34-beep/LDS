@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0f141c;
+  --surface: #0f141c;
+  --surface-elevation-1: #161e2e;
+  --surface-elevation-2: #1e293b;
+  --surface-elevation-3: #263348;
+  --border-default: #263244;
+  --border-subtle: #1e293b;
+  --border-strong: #303e54;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-primary: #6366f1;
+  --accent-cyan: #38bdf8;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabular numbers for technical metadata */
+.font-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbars for technical workbench panes */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090e16;
+}
+::-webkit-scrollbar-thumb {
+  background: #263244;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #303e54;
+}
+
+/* Subtle architectural grid pattern background */
+.bg-workbench-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(38, 50, 68, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(38, 50, 68, 0.15) 1px, transparent 1px);
+}
+
+/* Engineering Blueprint Laser / Scanline Animation */
+@keyframes scanline {
+  0% {
+    top: 0%;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0.8;
+  }
+}
+
+.animate-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, transparent);
+  box-shadow: 0 0 15px #38bdf8, 0 0 30px rgba(56, 189, 248, 0.5);
+  animation: scanline 2.8s ease-in-out infinite;
+}
+
+/* Subtle Card & Item Entry Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Radar Ping for Live Telemetry */
+@keyframes radarPing {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-radar-ping {
+  animation: radarPing 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Circuit Dash Flow for Architecture Connectors */
+@keyframes circuitDash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.animate-circuit-flow {
+  stroke-dasharray: 7, 7;
+  animation: circuitDash 1.2s linear infinite;
+}
+
+/* Terminal Cursor Blink */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-cursor-blink {
+  animation: cursorBlink 1s infinite;
+}

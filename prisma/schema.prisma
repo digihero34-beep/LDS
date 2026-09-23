@@ -1,0 +1,112 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Problem {
+  id               String    @id @default(uuid())
+  slug             String    @unique
+  title            String
+  difficulty       String
+  estimatedMinutes Int
+  summary          String
+  requirements     String
+  constraints      String
+  skills           String
+  evaluationHints  String
+  active           Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  attempts         Attempt[]
+}
+
+model Attempt {
+  id            String       @id @default(uuid())
+  problemId     String
+  attemptNumber Int
+  status        String
+  startedAt     DateTime     @default(now())
+  submittedAt   DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  problem       Problem      @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  submissions   Submission[]
+  evaluations   Evaluation[]
+
+  @@unique([problemId, attemptNumber])
+  @@index([problemId])
+  @@index([status])
+}
+
+model Submission {
+  id                         String       @id @default(uuid())
+  attemptId                  String
+  version                    Int          @default(1)
+  requirementsUnderstanding String
+  assumptions                String
+  classes                    String
+  relationships              String
+  designDecisions            String
+  edgeCases                  String
+  createdAt                  DateTime     @default(now())
+  updatedAt                  DateTime     @updatedAt
+  attempt                    Attempt      @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  evaluations                Evaluation[]
+
+  @@index([attemptId])
+}
+
+model Evaluation {
+  id                   String     @id @default(uuid())
+  attemptId            String
+  submissionId         String
+  evaluatorType        String
+  rubricVersion        String
+  status               String
+  summary              String?
+  failureReason        String?
+  strengths            String
+  priorityImprovements String
+  startedAt            DateTime   @default(now())
+  completedAt          DateTime?
+  failedAt             DateTime?
+  createdAt            DateTime   @default(now())
+  attempt              Attempt    @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  submission           Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  feedback             Feedback[]
+
+  @@index([attemptId])
+  @@index([submissionId])
+}
+
+model Feedback {
+  id           String     @id @default(uuid())
+  evaluationId String
+  criterion    String
+  rating       String
+  score        Float?
+  assessment   String
+  evidence     String
+  whyItMatters String
+  concern      String
+  suggestion   String
+  confidence   String
+  createdAt    DateTime   @default(now())
+  evaluation   Evaluation @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+
+  @@index([evaluationId])
+}
+
+model RubricRecord {
+  id         String   @id
+  version    String   @unique
+  name       String
+  dimensions String
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+}
